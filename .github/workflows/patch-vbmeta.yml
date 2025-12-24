@@ -1,0 +1,36 @@
+name: Patch vbmeta for disable verification
+
+on:
+  workflow_dispatch:
+    inputs:
+      recovery_link:
+        description: 'Enter the Direct Download Link (.img / .lz4 / .zip / .tar):'
+        required: true   
+              
+jobs:
+  patch-recovery-revived:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write    
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setting Scripts Permission
+        run: |    
+          chmod +x vbmeta.sh
+          chmod +x patch-vbmeta.py
+
+      - name: Running patch-recovery-revived
+        run: |
+          GOFILE=1 bash vbmeta.sh "${{ github.event.inputs.VBMETA_LINK }}"
+      
+      - name: Uploading Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: "Patched-disabled-vbmeta"
+          path: |
+            output/*.tar
+            output/*.img
