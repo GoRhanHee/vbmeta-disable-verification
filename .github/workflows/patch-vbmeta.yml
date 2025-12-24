@@ -3,7 +3,7 @@ name: Patch vbmeta for disable verification
 on:
   workflow_dispatch:
     inputs:
-      recovery_link:
+      vbmeta_link:
         description: 'Enter the Direct Download Link (.img / .lz4 / .zip / .tar):'
         required: true   
               
@@ -25,7 +25,7 @@ jobs:
 
       - name: Running patch-recovery-revived
         run: |
-          GOFILE=1 bash vbmeta.sh "${{ github.event.inputs.VBMETA_LINK }}"
+          bash vbmeta.sh "${{ github.event.inputs.vbmeta_link }}"
       
       - name: Uploading Artifact
         uses: actions/upload-artifact@v4
